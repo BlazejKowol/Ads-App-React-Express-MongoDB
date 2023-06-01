@@ -1,0 +1,16 @@
+{
+  "name": "Ads",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.1"
+  },
+  "scripts": {
+    "start": "npm-run-all -l -p start:*",
+    "start:server": "nodemon server.js",
+    "start:client": "cd client && yarn start",
+    "build": "cd client && yarn install && yarn build",
+    "postinstall": "cd client && yarn install"
+  }
+}
