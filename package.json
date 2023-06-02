@@ -10,7 +10,7 @@
     "nodemon": "^2.0.22"
   },
   "scripts": {
-    "start": "npm-run-all -l -p start:*",
+    "start": "yarn start npm-run-all -l -p start:*",
     "start:server": "nodemon server.js",
     "start:client": "cd client && yarn start",
     "build": "cd client && yarn install && yarn build",
