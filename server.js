@@ -3,17 +3,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const adsRoutes = require('./routes/ads.routes');
 const usersRoutes = require('./routes/users.routes');
+const authRoutes = require('./routes/auth.routes');
 
-// start express server
+// start express
 const app = express();
-
-const server = app.listen(8000, () => {
-  console.log('Server is running on port: 8000');
-});
-
-app.use((req, res) => {
-  res.status(404).send({ message: 'Not found...' });
-})
 
 // add middleware
 app.use(cors());
@@ -23,9 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 // add routes 
 app.use('/api', adsRoutes);
 app.use('/api', usersRoutes);
+app.use('/auth', authRoutes);
 
 // add db connection
-
 const NODE_ENV = process.env.NODE_ENV;
 let dbUri = '';
 
@@ -40,4 +33,13 @@ db.once('open', () => {
     console.log('Connected to the database');
   });
 
-db.on('error', err => console.log('Error ' + err));     
+db.on('error', err => console.log('Error ' + err));
+
+// start server
+const server = app.listen(8000, () => {
+  console.log('Server is running on port: 8000');
+});
+
+app.use((req, res) => {
+  res.status(404).send({ message: 'Not found...' });
+})
