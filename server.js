@@ -1,22 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const adsRoutes = require('./routes/ads.routes');
 const usersRoutes = require('./routes/users.routes');
 const authRoutes = require('./routes/auth.routes');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')
+const mongoose = require('mongoose');
 
 // start express
 const app = express();
-
-// add middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// add routes 
-app.use('/api', adsRoutes);
-app.use('/api', usersRoutes);
-app.use('/auth', authRoutes);
 
 // add db connection
 const NODE_ENV = process.env.NODE_ENV;
@@ -35,8 +27,19 @@ db.once('open', () => {
 
 db.on('error', err => console.log('Error ' + err));
 
+// add middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(session({secret: 'bk10', store: MongoStore.create(db), resave: false, saveUninitialized: false }));
+
+// add routes 
+app.use('/api', adsRoutes);
+app.use('/api', usersRoutes);
+app.use('/auth', authRoutes);
+
 // start server
-const server = app.listen(8000, () => {
+const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
 });
 
