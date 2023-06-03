@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth.routes');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')
 const mongoose = require('mongoose');
+const path = require('path');
 
 // start express
 const app = express();
@@ -28,15 +29,31 @@ db.once('open', () => {
 db.on('error', err => console.log('Error ' + err));
 
 // add middleware
-app.use(cors());
+if(process.env.NODE_ENV !== 'production') {
+  app.use(
+    cors({
+      origin: ['http://localhost:3000'],
+      credentials: true,
+    })
+  );
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(session({secret: 'bk10', store: MongoStore.create(db), resave: false, saveUninitialized: false }));
+app.use(session({
+  secret: 'bk10', 
+  store: MongoStore.create(db), 
+  resave: false, 
+  saveUninitialized: false,
+  cookie: {secure: process.env.NODE_ENV == 'production'},
+}));
 
 // add routes 
 app.use('/api', adsRoutes);
 app.use('/api', usersRoutes);
 app.use('/auth', authRoutes);
+
+app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // start server
 const server = app.listen(process.env.PORT || 8000, () => {
