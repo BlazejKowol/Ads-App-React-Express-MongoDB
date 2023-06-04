@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const adsRoutes = require('./routes/ads.routes');
-const usersRoutes = require('./routes/users.routes');
 const authRoutes = require('./routes/auth.routes');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')
@@ -49,7 +48,6 @@ app.use(session({
 
 // add routes 
 app.use('/api', adsRoutes);
-app.use('/api', usersRoutes);
 app.use('/auth', authRoutes);
 
 app.use(express.static(path.join(__dirname, '/client/build')));
