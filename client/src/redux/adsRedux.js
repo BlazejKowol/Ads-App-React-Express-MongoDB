@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { API_URL } from '../config';
+
 //selectors
 export const getAds = ({ads}) => ads.data;
 export const getAdById = ({ads}, id) => ads.find(ad => ad._id === id);
@@ -52,6 +55,74 @@ const adsRedux = (statePart = initialState, action = {}) => {
 };
 
 // thunk
+
+export const loadAdsRequest = () => {
+  return async dispatch => {
+
+    dispatch(startRequest({ name: 'LOAD_ADS' }));
+    try {
+
+      let res = await axios.get(`${API_URL}/ads`);
+      dispatch(loadAds(res.data));
+      dispatch(endRequest({ name: 'LOAD_ADS' }));
+
+    } catch(e) {
+      dispatch(errorRequest({ name: 'LOAD_ADS' ,error: e.message}));
+    }
+
+  };
+};
+
+export const addAdsRequest = (ad) => {
+  return async dispatch => {
+
+    dispatch(startRequest({ name: 'ADD_AD' }));
+    try {
+
+      let res = await axios.post(`${API_URL}/ads`, ad);
+      dispatch(addAd(res.data));
+      dispatch(endRequest({ name: 'ADD_AD' }));
+
+    } catch(e) {
+      dispatch(errorRequest({ name: 'ADD_AD', error: e.message }));
+    }
+
+  };
+};
+
+export const editAdsRequest = (ad) => {
+  return async dispatch => {
+
+    dispatch(startRequest({ name: 'EDIT_AD' }));
+    try {
+
+      let res = await axios.put(`${API_URL}/ads/${editAd._id}`, ad);
+      dispatch(editAd(res.data));
+      dispatch(endRequest({ name: 'EDIT_AD' }));
+
+    } catch(e) {
+      dispatch(errorRequest({ name: 'EDIT_AD', error: e.message }));
+    }
+
+  };
+};
+
+export const removeAdsRequest = () => {
+  return async dispatch => {
+
+    dispatch(startRequest({ name: 'REMOVE_AD' }));
+    try {
+
+      let res = await axios.delete(`${API_URL}/ads/${removeAd._id}`);
+      dispatch(removeAd(removeAd._id));
+      dispatch(endRequest({ name: 'REMOVE_AD' }));
+
+    } catch(e) {
+      dispatch(errorRequest({ name: 'REMOVE_AD', error: e.message }));
+    }
+
+  };
+};
 
 
 export default adsRedux;
