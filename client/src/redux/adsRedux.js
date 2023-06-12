@@ -3,7 +3,6 @@ import { API_URL } from '../config';
 
 //selectors
 export const getAds = ({ads}) => ads.data;
-console.log('getAds', getAds);
 export const getAdById = ({ads}, id) => ads.find(ad => ad._id === id);
 
 // actions

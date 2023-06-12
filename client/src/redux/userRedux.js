@@ -35,11 +35,11 @@ const userRedux = (statePart = initialState, action = {}) => {
     case LOG_OUT:
       return {...statePart, login: null};
     case START_REQUEST:
-      return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
+      return { ...statePart, requests: {...statePart.requests, [action.payload]: { pending: true, error: null, success: false }} };
     case END_REQUEST:
-      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: null, success: true }} };
+      return { ...statePart, requests: { ...statePart.requests, [action.payload]: { pending: false, error: null, success: true }} };
     case ERROR_REQUEST:
-      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: action.payload.error, success: false }} };
+      return { ...statePart, requests: { ...statePart.requests, [action.payload]: { pending: false, error: action.payload.error, success: false }} };
     default:
       return statePart;
   };

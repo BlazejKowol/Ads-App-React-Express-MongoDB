@@ -14,14 +14,19 @@ import Search from "./components/pages/Search/Search";
 import Login from "./components/pages/Login/Login";
 import Logout from "./components/pages/Logout/Logout";
 import Register from "./components/pages/Register/Register";
+import { loadUserRequest } from "./redux/userRedux";
 
 const App = () => {
 
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  //useEffect(() => dispatch(loadAdsRequest()), [dispatch]);
-  //useEffect(() => dispatch(fetchStatus()), [dispatch]); 
+  useEffect(() => {
+    dispatch(loadAdsRequest())
+  }, [dispatch]);
 
+  useEffect(() => 
+  {dispatch(loadUserRequest())
+  }, [dispatch]); 
 
   return (
     <Container>
