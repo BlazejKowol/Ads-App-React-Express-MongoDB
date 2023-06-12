@@ -1,5 +1,6 @@
 import { Nav } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
+import AllAds from "../../features/AllAds/AllAds";
 
 const Home = () => {
   return (
@@ -12,7 +13,7 @@ const Home = () => {
                 </Nav.Link>
         </div>
         </section>
-      {/* <AllAds /> */}
+      <AllAds />
     </>
   );
 };

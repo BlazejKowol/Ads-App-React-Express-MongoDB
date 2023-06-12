@@ -3,6 +3,7 @@ import { API_URL } from '../config';
 
 //selectors
 export const getAds = ({ads}) => ads.data;
+console.log('getAds', getAds);
 export const getAdById = ({ads}, id) => ads.find(ad => ad._id === id);
 
 // actions
@@ -62,7 +63,7 @@ export const loadAdsRequest = () => {
     dispatch(startRequest({ name: 'LOAD_ADS' }));
     try {
 
-      let res = await axios.get(`${API_URL}/ads`);
+      let res = await axios.get(`${API_URL}/api/ads`);
       dispatch(loadAds(res.data));
       dispatch(endRequest({ name: 'LOAD_ADS' }));
 
@@ -79,7 +80,7 @@ export const addAdsRequest = (ad) => {
     dispatch(startRequest({ name: 'ADD_AD' }));
     try {
 
-      let res = await axios.post(`${API_URL}/ads`, ad);
+      let res = await axios.post(`${API_URL}/api/ads`, ad);
       dispatch(addAd(res.data));
       dispatch(endRequest({ name: 'ADD_AD' }));
 
@@ -96,7 +97,7 @@ export const editAdsRequest = (ad) => {
     dispatch(startRequest({ name: 'EDIT_AD' }));
     try {
 
-      let res = await axios.put(`${API_URL}/ads/${editAd._id}`, ad);
+      let res = await axios.put(`${API_URL}/api/ads/${editAd._id}`, ad);
       dispatch(editAd(res.data));
       dispatch(endRequest({ name: 'EDIT_AD' }));
 
@@ -113,7 +114,7 @@ export const removeAdsRequest = () => {
     dispatch(startRequest({ name: 'REMOVE_AD' }));
     try {
 
-      let res = await axios.delete(`${API_URL}/ads/${removeAd._id}`);
+      let res = await axios.delete(`${API_URL}/api/ads/${removeAd._id}`);
       dispatch(removeAd(removeAd._id));
       dispatch(endRequest({ name: 'REMOVE_AD' }));
 
