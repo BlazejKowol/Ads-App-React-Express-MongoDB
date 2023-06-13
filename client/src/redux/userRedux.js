@@ -53,7 +53,7 @@ export const loadUserRequest = () => {
     dispatch(startRequest());
     try {
 
-      let res = await axios.get(`${API_URL}/auth/user`);
+      let res = await axios.get(`${API_URL}/auth/user`, {withCredentials: true });
       dispatch(logIn(res.data));
       dispatch(endRequest());
 

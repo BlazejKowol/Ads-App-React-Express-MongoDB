@@ -3,7 +3,8 @@ import { API_URL } from '../config';
 
 //selectors
 export const getAds = ({ads}) => ads.data;
-export const getAdById = ({ads}, id) => ads.find(ad => ad._id === id);
+export const getAdById = ({ads}, id) => ads.data.find(ad => ad._id === id);
+export const getAdsBySearch = ({ads}, searchPhrase)  => ads.data.filter(ad => ad.title.toLowerCase().includes(searchPhrase.toLowerCase()));
 
 // actions
 const createActionName = actionName => `app/ads/${actionName}`;
