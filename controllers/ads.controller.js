@@ -1,6 +1,7 @@
 const Ad = require('../models/ads.model');
 const getImageFileType = require('../utils/getImageFileType');
 const fs = require('fs');
+const path = require('path');
 
 exports.getAll = async (req, res) => {
     try {
@@ -59,14 +60,17 @@ exports.put = async (req, res) => {
 
         const ad = await Ad.findById(req.params.id);
         if(ad) {
-            const oldImage = ad.image;
-            const updatedAd = await Ad.updateOne({_id: req.params.id}, {$set: {title: title, content: content, date: date, price: parseInt(price), location: location}});
-            console.log(updatedAd);
-            res.json(updatedAd);
-            if (req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType) !== oldImage) {
-                //res.json(updatedAd({$set: {image: req.file.filename}}));
+            if (req.file && !(['image/png', 'image/jpeg', 'image/gif'].includes(fileType))) {
                 fs.unlinkSync(req.file.path);
+                res.status(400).json({message: 'Invalid image format'})
             }
+            const oldImage = ad.image;
+            const updatedAd = await Ad.updateOne({_id: req.params.id}, {$set: {title: title, content: content, date: date, price: parseInt(price), location: location, image: req.file.filename}});
+            console.log(updatedAd);
+            if (req.file && ad.image) {
+                fs.unlinkSync(path.join('public', 'uploads', ad.image));
+            } 
+            res.json({message: 'OK'});
         }  else {
             res.status(404).json({ message: 'Ad Not found...' })
         }

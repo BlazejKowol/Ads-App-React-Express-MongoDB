@@ -12,13 +12,13 @@ const app = express();
 
 // add db connection
 const NODE_ENV = process.env.NODE_ENV;
-let dbUri = '';
+let dbUrl = '';
 
-if(NODE_ENV === 'production') dbUri = 'url to remote db';
-else if(NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/adsAppDBtest';
-else dbUri = 'mongodb://localhost:27017/adsAppDB';
+if(NODE_ENV === 'production') dbUrl = 'mongodb://localhost:27017/adsAppDB';
+else if(NODE_ENV === 'test') dbUrl = 'mongodb://localhost:27017/adsAppDBtest';
+else dbUrl = 'mongodb://localhost:27017/adsAppDB';
 
-mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
     
 db.once('open', () => {

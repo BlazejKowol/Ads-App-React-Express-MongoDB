@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_URL } from '../config';
 
 //selectors
-export const getUser = ({user}) => user.data;
+export const getUser = ({user}) => user.login;
 
 // actions
 const createActionName = actionName => `app/users/${actionName}`;
