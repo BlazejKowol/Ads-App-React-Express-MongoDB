@@ -1,13 +1,9 @@
-import { useSelector } from "react-redux";
-import { getAds } from "../../../redux/adsRedux";
 import { NavLink } from 'react-router-dom';
 import { Nav } from "react-bootstrap";
 import { Col, Button } from "react-bootstrap";
 import { IMGS_URL } from "../../../config";
 
 const AdSummary = ({title, image, location, _id}) => {
-
-  //const ads = useSelector(getAds);
 
   return (
         <>

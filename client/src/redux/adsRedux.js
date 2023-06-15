@@ -5,7 +5,6 @@ import { API_URL } from '../config';
 export const getAds = ({ads}) => ads.data;
 export const getAdById = ({ads}, id) => ads.data.find(ad => ad._id === id);
 export const getAdsBySearch = ({ads}, searchPhrase)  => ads.data.filter(ad => ad.title.toLowerCase().includes(searchPhrase.toLowerCase()));
-
 // actions
 const createActionName = actionName => `app/ads/${actionName}`;
 
@@ -43,7 +42,7 @@ const adsRedux = (statePart = initialState, action = {}) => {
     case EDIT_AD: 
       return { ...statePart, data: statePart.map(ad => (ad.id === action.payload.id ? {...ad, ...action.payload} : ad)) }
     case REMOVE_AD: 
-      return { ...statePart, data: statePart.filter(ad => (ad.id !== action.payload.id)) }
+      return { ...statePart, data: statePart.filter(ad => (ad.data._id !== action.payload.id)) }
     case START_REQUEST:
       return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
     case END_REQUEST:
@@ -108,14 +107,14 @@ export const editAdsRequest = (ad) => {
   };
 };
 
-export const removeAdsRequest = () => {
+export const removeAdsRequest = (id) => {
   return async dispatch => {
 
     dispatch(startRequest({ name: 'REMOVE_AD' }));
     try {
 
-      let res = await axios.delete(`${API_URL}/api/ads/${removeAd._id}`);
-      dispatch(removeAd(removeAd._id));
+      let res = await axios.delete(`${API_URL}/api/ads/${id}`);
+      dispatch(removeAd(id));
       dispatch(endRequest({ name: 'REMOVE_AD' }));
 
     } catch(e) {
