@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import dateToString from '../../../utils/dateToString';
+import dateToString from '../../../utils/DateToString';
 import { useForm } from "react-hook-form";
 
 const AdForm = ({ action, actionText, ...props }) => {
@@ -12,7 +12,7 @@ const AdForm = ({ action, actionText, ...props }) => {
   const [content, setContent] = useState(props.content || '');
   const [date, setDate] = useState(props.date || '');
   const [image, setImage] = useState(props.image || null);
-  const [price, setPrice] = useState(props.price || '');
+  const [price, setPrice] = useState(props.price || 0);
   const [location, setLocation] = useState(props.location || '');
   const [user, setUser] = useState(props.user || '');
 
@@ -54,26 +54,29 @@ const AdForm = ({ action, actionText, ...props }) => {
           
         <Form.Label>Date</Form.Label>
             <DatePicker 
-            className="mb-3 w-50" 
+            className="mb-3 w-50"
+            placeholder="Select the date"
             value={date} 
             onChange={(date) => setDate(dateToString(date))} />
             {dateError && <small className="d-block form-text text-danger mt-2">Date can't be empty</small>}
 
         <Form.Label>Image</Form.Label>
             <Form.Control
-            {...register("image", { required: true})}  
+            {...register("image", { required: true})}
+            className="mb-3 w-50"  
             type="file" 
             onChange={e => setImage(e.target.files[0])} />
+            {errors.image && <small className="d-block form-text text-danger mt-2">You need to set an image</small>}
 
         <Form.Label>Price</Form.Label>
             <Form.Control 
-            {...register("price", { required: true})} 
+            {...register("price", { required: true, min: 1})} 
             className="mb-3 w-50" 
             value={parseInt(price)} 
             placeholder="Select your price" 
             type="text" 
             onChange={e => setPrice(parseInt(e.target.value))} />
-            {errors.price && <small className="d-block form-text text-danger mt-2">This field is required</small>}    
+            {errors.price && <small className="d-block form-text text-danger mt-2">Price can't be set at 0</small>}    
 
         <Form.Label>Location</Form.Label>
             <Form.Control 
@@ -90,8 +93,7 @@ const AdForm = ({ action, actionText, ...props }) => {
             {...register("user", { required: true})} 
             className="mb-3 w-50" 
             value={user} 
-            type="text" 
-            onChange={e => setUser(e.target.value)} />
+            type="text"  />
             {errors.user && <small className="d-block form-text text-danger mt-2">This field is required</small>}    
 
         <Button type="submit" className="border border-none bg-primary rounded py-1 mt-1">
