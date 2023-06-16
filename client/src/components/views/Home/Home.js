@@ -26,6 +26,12 @@ const Home = () => {
     <section>
         <div className="d-flex justify-content-between my-4">
             <h1 className="h2">Ads Board</h1>
+
+            {user && (<Nav.Link as={NavLink} to={"/ad/add"} className="text-decoration-none text-info">
+                  <button className="btn border-info bg-transparent py-2 px-3 mx-1 text-info">Add New Ad</button>
+                </Nav.Link>
+            )}
+
             <Form className="d-flex" onSubmit={handleSubmit}>
               <Form.Group controlId="formSearch" />
               <Form.Control className="mx-2" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search..." />
@@ -33,10 +39,7 @@ const Home = () => {
                 Search
               </Button>
             </Form>
-            {user && (<Nav.Link as={NavLink} to={"/ad/add"} className="text-decoration-none text-info">
-                  <button className="btn border-info bg-transparent py-2 px-3 mx-1 text-info">Add New Ad</button>
-                </Nav.Link>
-            )}
+            
         </div>
         </section>
       <AdsGrid ads={ads} />

@@ -64,7 +64,6 @@ exports.put = async (req, res) => {
                 fs.unlinkSync(req.file.path);
                 res.status(400).json({message: 'Invalid image format'})
             }
-            const oldImage = ad.image;
             const updatedAd = await Ad.updateOne({_id: req.params.id}, {$set: {title: title, content: content, date: date, price: parseInt(price), location: location, image: req.file.filename}});
             console.log(updatedAd);
             if (req.file && ad.image) {

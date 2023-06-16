@@ -90,14 +90,14 @@ export const addAdsRequest = (ad) => {
   };
 };
 
-export const editAdsRequest = (ad) => {
+export const editAdsRequest = (ad, id) => {
   return async dispatch => {
 
     dispatch(startRequest({ name: 'EDIT_AD' }));
     try {
 
-      let res = await axios.put(`${API_URL}/api/ads/${editAd._id}`, ad);
-      dispatch(editAd(res.data));
+      let res = await axios.put(`${API_URL}/api/ads/${id}`, ad);
+      dispatch(editAd(res.data, id));
       dispatch(endRequest({ name: 'EDIT_AD' }));
 
     } catch(e) {
