@@ -14,7 +14,7 @@ const app = express();
 const NODE_ENV = process.env.NODE_ENV;
 let dbUrl = '';
 
-if(NODE_ENV === 'production') dbUrl = 'mongodb://localhost:27017/adsAppDB';
+if(NODE_ENV === 'production') dbUrl = `mongodb+srv://user1:${process.env.DB_PASS}@cluster1.7cvqbd6.mongodb.net/adsAppDB`;
 else if(NODE_ENV === 'test') dbUrl = 'mongodb://localhost:27017/adsAppDBtest';
 else dbUrl = 'mongodb://localhost:27017/adsAppDB';
 
