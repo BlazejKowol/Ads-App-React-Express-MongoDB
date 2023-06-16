@@ -2,7 +2,7 @@ import { Nav } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
 import {Col, Button, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { editAdsRequest, getAdById } from "../../../redux/adsRedux";
+import { getAdById } from "../../../redux/adsRedux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { getUser } from "../../../redux/userRedux";
