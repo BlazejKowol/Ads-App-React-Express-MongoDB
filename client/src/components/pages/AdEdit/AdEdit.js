@@ -9,7 +9,6 @@ import AdForm from "../../features/AdForm/AdForm";
 const AdEdit = () => {
 
   const { id } = useParams();
-  console.log(id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,7 +16,7 @@ const AdEdit = () => {
   const adById = useSelector(state => getAdById(state, id))
 
   const handleSubmit = ad => {
-      dispatch(editAdsRequest({...ad, id}));
+      dispatch(editAdsRequest({...ad}, id));
       navigate("/");
   };
 

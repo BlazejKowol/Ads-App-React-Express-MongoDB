@@ -18,6 +18,7 @@ if(NODE_ENV === 'production') dbUrl = `mongodb+srv://user1:${process.env.DB_PASS
 else if(NODE_ENV === 'test') dbUrl = 'mongodb://localhost:27017/adsAppDBtest';
 else dbUrl = 'mongodb://localhost:27017/adsAppDB';
 
+
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
     
@@ -39,12 +40,21 @@ if(process.env.NODE_ENV !== 'production') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
-  secret: 'bk10', 
-  store: MongoStore.create(db), 
-  resave: false, 
+  secret: 'bk10',
+  store: MongoStore.create({
+    mongoUrl: dbUrl,
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+    collectionName: 'sessions',
+    cookie: {
+      secure: process.env.NODE_ENV == 'production',
+    }
+  }),
+  resave: false,
   saveUninitialized: false,
-  cookie: {secure: process.env.NODE_ENV == 'production'},
-}));
+}))
 
 // add routes 
 app.use('/api', adsRoutes);
@@ -61,3 +71,7 @@ const server = app.listen(process.env.PORT || 8000, () => {
 app.use((req, res) => {
   res.status(404).send({ message: 'Not found...' });
 })
+
+server.prependListener("request", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+});
