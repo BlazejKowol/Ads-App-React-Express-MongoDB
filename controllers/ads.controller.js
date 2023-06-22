@@ -57,7 +57,7 @@ exports.put = async (req, res) => {
     try {
         const {title, content, date, price, location} = req.body;
         const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
-
+        
         const ad = await Ad.findById(req.params.id);
         if(ad) {
             if (req.file && !(['image/png', 'image/jpeg', 'image/gif'].includes(fileType))) {

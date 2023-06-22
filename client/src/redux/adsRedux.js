@@ -97,7 +97,7 @@ export const editAdsRequest = (ad, id) => {
     try {
 
       let res = await axios.put(`${API_URL}/api/ads/${id}`, ad);
-      dispatch(editAd(res.data, id));
+      dispatch(editAd(res.data));
       dispatch(endRequest({ name: 'EDIT_AD' }));
 
     } catch(e) {
