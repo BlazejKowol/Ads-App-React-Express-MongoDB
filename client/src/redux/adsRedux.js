@@ -40,9 +40,9 @@ const adsRedux = (statePart = initialState, action = {}) => {
     case ADD_AD: 
       return { ...statePart, data: [...statePart.data, action.payload] }
     case EDIT_AD: 
-      return { ...statePart, data: statePart.map(ad => (ad.id === action.payload.id ? {...ad, ...action.payload} : ad)) }
+      return { ...statePart, data: statePart.data.map(ad => (ad._id === action.payload.id ? {...ad, ...action.payload} : ad)) }
     case REMOVE_AD: 
-      return { ...statePart, data: statePart.filter(ad => (ad.data._id !== action.payload.id)) }
+      return { ...statePart, data: statePart.data.filter(ad => (ad.data._id !== action.payload.id)) }
     case START_REQUEST:
       return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
     case END_REQUEST:
@@ -67,7 +67,7 @@ export const loadAdsRequest = () => {
       dispatch(endRequest({ name: 'LOAD_ADS' }));
 
     } catch(e) {
-      dispatch(errorRequest({ name: 'LOAD_ADS' ,error: e.message}));
+      dispatch(errorRequest({ name: 'LOAD_ADS', error: e.message}));
     }
 
   };
@@ -76,11 +76,16 @@ export const loadAdsRequest = () => {
 export const addAdsRequest = (ad) => {
   return async dispatch => {
 
+    const fd = new FormData()
+    for(const key in ad) {
+      fd.append(key, ad[key])
+    }
+
     dispatch(startRequest({ name: 'ADD_AD' }));
     try {
 
-      let res = await axios.post(`${API_URL}/api/ads`, ad);
-      dispatch(addAd(res.data));
+      let res = await axios.post(`${API_URL}/api/ads`, fd);
+      dispatch(addAd({...ad, image: res.data.image}));
       dispatch(endRequest({ name: 'ADD_AD' }));
 
     } catch(e) {
@@ -93,11 +98,17 @@ export const addAdsRequest = (ad) => {
 export const editAdsRequest = (ad, id) => {
   return async dispatch => {
 
+    const fd = new FormData()
+    for(const key in ad) {
+      fd.append(key, ad[key])
+    }
+
     dispatch(startRequest({ name: 'EDIT_AD' }));
     try {
 
-      let res = await axios.put(`${API_URL}/api/ads/${id}`, ad);
-      dispatch(editAd(res.data));
+      let res = await axios.put(`${API_URL}/api/ads/${id}`, fd);
+      console.log('ad', ad);
+      dispatch(editAd({...ad, id, image: res.data.image}));
       dispatch(endRequest({ name: 'EDIT_AD' }));
 
     } catch(e) {

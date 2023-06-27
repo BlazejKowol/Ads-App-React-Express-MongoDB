@@ -3,7 +3,7 @@ import { getUser } from "../../../redux/userRedux";
 import { useNavigate} from "react-router";
 import { useDispatch } from "react-redux";
 import AdForm from "../../features/AdForm/AdForm";
-import { addAdsRequest } from "../../../redux/adsRedux";
+import { addAdsRequest } from "../../../redux/adsRedux"
 
 const AdAdd = () => {
     
@@ -19,7 +19,10 @@ const AdAdd = () => {
   return (
     <>
       {user === null && (<h1>You need to log in first!</h1>)}
-      {user && (<AdForm action={handleSubmit} actionText="Add post" user={user} />)}
+      {user && (<AdForm 
+        action={handleSubmit} 
+        actionText="Add post"
+        user={user} />)}
     </> 
   );
 };

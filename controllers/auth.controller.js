@@ -49,7 +49,7 @@ exports.login = async (req,res) => {
 }
 
 exports.getUser = async (req, res) => {
-    res.send({ message: 'I\'m logged!' })
+    res.send({ message: req.session.user })
 }
 
 exports.logout = async (req, res) => {

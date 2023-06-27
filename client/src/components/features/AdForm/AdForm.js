@@ -72,10 +72,10 @@ const AdForm = ({ action, actionText, ...props }) => {
             <Form.Control 
             {...register("price", { required: true, min: 1})} 
             className="mb-3 w-50" 
-            value={parseInt(price)} 
+            value={price} 
             placeholder="Select your price" 
-            type="text" 
-            onChange={e => setPrice(parseInt(e.target.value))} />
+            type="number" 
+            onChange={e => setPrice((e.target.value))} />
             {errors.price && <small className="d-block form-text text-danger mt-2">Price can't be set at 0</small>}    
 
         <Form.Label>Location</Form.Label>
@@ -93,7 +93,7 @@ const AdForm = ({ action, actionText, ...props }) => {
             {...register("user", { required: true})} 
             className="mb-3 w-50" 
             value={user} 
-            type="text"  />
+            type="text" />
             {errors.user && <small className="d-block form-text text-danger mt-2">This field is required</small>}    
 
         <Button type="submit" className="border border-none bg-primary rounded py-1 mt-1">

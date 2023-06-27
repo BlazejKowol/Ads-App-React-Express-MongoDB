@@ -41,7 +41,7 @@ exports.post = async (req, res) => {
         if (title && content && date && price && location && req.file && ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'].includes(fileType)) {
             const newAd = new Ad({title: title, content: content, date: date, image: req.file.filename, price: parseInt(price), location: location, user: req.session.user.login});
             await newAd.save();
-            res.json({ message: 'Ad added' });
+            res.json({ message: newAd });
         } else {
             if(req.file) {
                 fs.unlinkSync(req.file.path);
@@ -69,7 +69,7 @@ exports.put = async (req, res) => {
             if (req.file && ad.image) {
                 fs.unlinkSync(path.join('public', 'uploads', ad.image));
             } 
-            res.json({message: 'OK'});
+            res.json({message: 'OK', image: req.file.filename});
         }  else {
             res.status(404).json({ message: 'Ad Not found...' })
         }
