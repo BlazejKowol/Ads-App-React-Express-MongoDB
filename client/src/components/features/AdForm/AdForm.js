@@ -5,6 +5,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dateToString from '../../../utils/DateToString';
 import { useForm } from "react-hook-form";
+import { useEffect } from 'react';
+import { API_URL } from '../../../config';
 
 const AdForm = ({ action, actionText, ...props }) => {
     
@@ -14,7 +16,6 @@ const AdForm = ({ action, actionText, ...props }) => {
   const [image, setImage] = useState(props.image || null);
   const [price, setPrice] = useState(props.price || 0);
   const [location, setLocation] = useState(props.location || '');
-  const [user, setUser] = useState(props.user || '');
 
   const [dateError, setDateError] = useState(false);
   
@@ -23,7 +24,7 @@ const AdForm = ({ action, actionText, ...props }) => {
   const handleSubmit = () => {
     setDateError(!date);
     if(date) {
-    action({title, content, date, image, price, location, user});
+    action({title, content, date, image, price, location});
     }
 };
   
@@ -87,14 +88,6 @@ const AdForm = ({ action, actionText, ...props }) => {
             type="text" 
             onChange={e => setLocation(e.target.value)} />
             {errors.location && <small className="d-block form-text text-danger mt-2">This field is required</small>}
-
-        <Form.Label>User</Form.Label>
-            <Form.Control 
-            {...register("user", { required: true})} 
-            className="mb-3 w-50" 
-            value={user} 
-            type="text" />
-            {errors.user && <small className="d-block form-text text-danger mt-2">This field is required</small>}    
 
         <Button type="submit" className="border border-none bg-primary rounded py-1 mt-1">
             <p className="text-light m-0">{actionText}</p>

@@ -42,7 +42,7 @@ const adsRedux = (statePart = initialState, action = {}) => {
     case EDIT_AD: 
       return { ...statePart, data: statePart.data.map(ad => (ad._id === action.payload.id ? {...ad, ...action.payload} : ad)) }
     case REMOVE_AD: 
-      return { ...statePart, data: statePart.data.filter(ad => (ad.data._id !== action.payload.id)) }
+      return { ...statePart, data: statePart.data.filter(ad => (ad._id !== action.payload.id)) }
     case START_REQUEST:
       return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
     case END_REQUEST:
@@ -85,7 +85,7 @@ export const addAdsRequest = (ad) => {
     try {
 
       let res = await axios.post(`${API_URL}/api/ads`, fd);
-      dispatch(addAd({...ad, image: res.data.image}));
+      dispatch(addAd(res.data.message));
       dispatch(endRequest({ name: 'ADD_AD' }));
 
     } catch(e) {
@@ -124,8 +124,9 @@ export const removeAdsRequest = (id) => {
     dispatch(startRequest({ name: 'REMOVE_AD' }));
     try {
 
-      let res = await axios.delete(`${API_URL}/api/ads/${id}`);
+      await axios.delete(`${API_URL}/api/ads/${id}`);
       dispatch(removeAd(id));
+      dispatch(loadAdsRequest());
       dispatch(endRequest({ name: 'REMOVE_AD' }));
 
     } catch(e) {
@@ -134,6 +135,5 @@ export const removeAdsRequest = (id) => {
 
   };
 };
-
 
 export default adsRedux;

@@ -69,7 +69,7 @@ const server = app.listen(process.env.PORT || 8000, () => {
 });
 
 app.use((req, res) => {
-  res.status(404).send({ message: 'Not found...' });
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
 })
 
 server.prependListener("request", (req, res) => {

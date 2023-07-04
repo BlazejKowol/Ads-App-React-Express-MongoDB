@@ -32,7 +32,7 @@ const AdEdit = () => {
       image={adById.image} 
       price={adById.price} 
       location={adById.location}  
-      user={adById.user.login} />)}
+      />)}
     </> 
   );
 };

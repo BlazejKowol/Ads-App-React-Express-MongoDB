@@ -39,9 +39,10 @@ exports.post = async (req, res) => {
         const { title, content, date, price, location } = req.body;
         const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
         if (title && content && date && price && location && req.file && ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'].includes(fileType)) {
-            const newAd = new Ad({title: title, content: content, date: date, image: req.file.filename, price: parseInt(price), location: location, user: req.session.user.login});
+            const newAd = new Ad({title: title, content: content, date: date, image: req.file.filename, price: parseInt(price), location: location, user: req.session.user.id});
             await newAd.save();
-            res.json({ message: newAd });
+            const ad = await Ad.findOne({_id: newAd._id}).populate('user');
+            res.json({ message: ad });
         } else {
             if(req.file) {
                 fs.unlinkSync(req.file.path);
@@ -65,7 +66,6 @@ exports.put = async (req, res) => {
                 res.status(400).json({message: 'Invalid image format'})
             }
             const updatedAd = await Ad.updateOne({_id: req.params.id}, {$set: {title: title, content: content, date: date, price: parseInt(price), location: location, image: req.file.filename}});
-            console.log(updatedAd);
             if (req.file && ad.image) {
                 fs.unlinkSync(path.join('public', 'uploads', ad.image));
             } 
@@ -74,20 +74,20 @@ exports.put = async (req, res) => {
             res.status(404).json({ message: 'Ad Not found...' })
         }
     } catch(err) {
-        console.log(err);
         res.status(500).json({ message: err });
       }
 }
 exports.delete = async (req, res) => {
     try {
-        const ad = await Ad.findById(req.params.id);
+        const ad = await Ad.findById(req.params.id).populate('user');
         if (ad) {
             await Ad.deleteOne({_id: req.params.id})
+            fs.unlinkSync(path.join('public', 'uploads', ad.image));
             res.json({ message: 'OK' });
-            fs.unlinkSync(req.file.path);
-        } 
-        else res.status(404).json({ message: 'Not found...' });
+        }  
+            else res.status(404).json({ message: 'Not found...' });           
     } catch(err) {
         res.status(500).json({ message: err });
+        console.log(err);
       }
 }

@@ -6,7 +6,7 @@ import Home from "./components/views/Home/Home";
 import NotFound from "./components/pages/NotFound/NotFound";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadAdsRequest } from "./redux/adsRedux";
+import { loadAds, loadAdsRequest } from "./redux/adsRedux";
 import Ad from "./components/pages/Ad/Ad";
 import AdAdd from "./components/pages/AdAdd/AdAdd";
 import AdEdit from "./components/pages/AdEdit/AdEdit";

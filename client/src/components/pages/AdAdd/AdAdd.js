@@ -8,6 +8,7 @@ import { addAdsRequest } from "../../../redux/adsRedux"
 const AdAdd = () => {
     
   const user = useSelector(getUser);
+  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ const AdAdd = () => {
       {user && (<AdForm 
         action={handleSubmit} 
         actionText="Add post"
-        user={user} />)}
+        />)}
     </> 
   );
 };

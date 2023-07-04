@@ -14,6 +14,7 @@ import { Navigate } from "react-router";
 import '../../../styles/global.scss';
 
 const Ad = () => {
+
     
   const {id} = useParams();
   const ad = useSelector(state => getAdById(state, id));
